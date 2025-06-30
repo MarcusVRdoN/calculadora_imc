@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SeletorGenero extends StatelessWidget {
   final String generoSelecionado;
   final Function(String) aoMudarGenero;
   final bool habilitado;
 
-  SeletorGenero({super.key, 
+  SeletorGenero({
+    super.key,
     required this.generoSelecionado,
     required this.aoMudarGenero,
     this.habilitado = true,
@@ -24,9 +26,11 @@ class SeletorGenero extends StatelessWidget {
   }
 
   Widget _buildOpcaoGenero(String rotulo, String valor) {
-    bool selecionado = generoSelecionado == valor;
-    String seed = valor == 'masculino' ? 'Felix' : 'Aneka';
-    
+    final bool selecionado = generoSelecionado == valor;
+    final String seed = valor == 'masculino' ? 'Kimberly' : 'Easton';
+    final String url =
+        'https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=$seed';
+
     return GestureDetector(
       onTap: habilitado ? () => aoMudarGenero(valor) : null,
       child: Column(
@@ -35,25 +39,17 @@ class SeletorGenero extends StatelessWidget {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: selecionado ? Colors.blue[100] : Colors.grey[200],
+              color: selecionado ? Colors.blue.withAlpha(51) : Colors.grey[200],
               shape: BoxShape.circle,
             ),
             child: ClipOval(
-              child: Image.network(
-                'https://api.dicebear.com/7.x/fun-emoji/svg?seed=$seed',
-                width: 60,
-                height: 60,
-                errorBuilder: (context, error, stackTrace) {
-                  return Icon(
-                    valor == 'masculino' ? Icons.face : Icons.face_3,
-                    size: 40,
-                    color: selecionado ? Colors.blue : Colors.grey,
-                  );
-                },
+              child: SvgPicture.network(
+                url,
+                fit: BoxFit.cover,
               ),
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 8),
           Text(
             rotulo,
             style: TextStyle(
