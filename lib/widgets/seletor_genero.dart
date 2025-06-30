@@ -49,7 +49,7 @@ class SeletorGenero extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Text(
             rotulo,
             style: TextStyle(

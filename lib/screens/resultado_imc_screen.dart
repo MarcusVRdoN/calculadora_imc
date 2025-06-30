@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'categorias_imc_screen.dart';
 import '../models/calculadora_imc.dart';
-import '../widgets/seletor_genero.dart';
 
 class ResultadoIMCScreen extends StatelessWidget {
   final double peso;
   final double altura;
   final String genero;
 
-  ResultadoIMCScreen({super.key, 
+  ResultadoIMCScreen({
+    super.key,
     required this.peso,
     required this.altura,
     required this.genero,
@@ -18,6 +18,10 @@ class ResultadoIMCScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final double imc = CalculadoraIMC.calcular(peso, altura);
     final String categoria = CalculadoraIMC.obterCategoria(imc);
+    final String avatarUrl = genero == 'masculino'
+        ? 'https://api.dicebear.com/9.x/adventurer-neutral/png?seed=Kimberly'
+        : 'https://api.dicebear.com/9.x/adventurer-neutral/png?seed=Easton';
+    final String labelGenero = genero == 'masculino' ? 'Masculino' : 'Feminino';
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -35,6 +39,7 @@ class ResultadoIMCScreen extends StatelessWidget {
                         icon: Icon(Icons.arrow_back),
                         onPressed: () => Navigator.pop(context),
                       ),
+                      SizedBox(width: 8),
                       Text(
                         'Seu corpo',
                         style: TextStyle(fontSize: 16, color: Colors.grey),
@@ -63,10 +68,24 @@ class ResultadoIMCScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 40),
-              SeletorGenero(
-                generoSelecionado: genero,
-                aoMudarGenero: (value) {},
-                habilitado: false,
+              Center(
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      radius: 40,
+                      backgroundColor: Colors.grey.shade200,
+                      backgroundImage: NetworkImage(avatarUrl),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      labelGenero,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 40),
               Row(
@@ -74,19 +93,31 @@ class ResultadoIMCScreen extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      Text('Seu peso (kg)', style: TextStyle(color: Colors.grey)),
                       Text(
-                        peso.toStringAsFixed(0),
-                        style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                        'Seu peso (kg)',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      Text(
+                        peso.toString(),
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
                   Column(
                     children: [
-                      Text('Sua altura (cm)', style: TextStyle(color: Colors.grey)),
                       Text(
-                        altura.toStringAsFixed(0),
-                        style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                        'Sua altura (cm)',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      Text(
+                        altura.toString(),
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
@@ -99,7 +130,7 @@ class ResultadoIMCScreen extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Text(
-                imc.toStringAsFixed(1),
+                imc.toStringAsFixed(0),
                 style: TextStyle(
                   fontSize: 48,
                   fontWeight: FontWeight.bold,

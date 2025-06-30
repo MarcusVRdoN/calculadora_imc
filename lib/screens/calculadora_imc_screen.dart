@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'resultado_imc_screen.dart';
 import 'categorias_imc_screen.dart';
 import '../widgets/seletor_genero.dart';
 
 class CalculadoraIMCScreen extends StatefulWidget {
-  const CalculadoraIMCScreen({super.key});
+  CalculadoraIMCScreen({super.key});
 
   @override
   _CalculadoraIMCScreenState createState() => _CalculadoraIMCScreenState();
@@ -50,6 +51,8 @@ class _CalculadoraIMCScreenState extends State<CalculadoraIMCScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool showHeader = Navigator.of(context).canPop();
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -57,33 +60,35 @@ class _CalculadoraIMCScreenState extends State<CalculadoraIMCScreen> {
           padding: EdgeInsets.all(20),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.arrow_back, color: Colors.black),
-                      SizedBox(width: 10),
-                      Text(
-                        'Seu corpo',
-                        style: TextStyle(fontSize: 16, color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.info_outline),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CategoriasIMCScreen(),
+              if (showHeader) ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.arrow_back, color: Colors.black),
+                        SizedBox(width: 10),
+                        Text(
+                          'Seu corpo',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
                         ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
+                      ],
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.info_outline),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => CategoriasIMCScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+              ],
               Text(
                 'Calculadora de IMC',
                 style: TextStyle(
@@ -105,7 +110,7 @@ class _CalculadoraIMCScreenState extends State<CalculadoraIMCScreen> {
                 children: [
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           'Seu peso (kg)',
@@ -114,11 +119,23 @@ class _CalculadoraIMCScreenState extends State<CalculadoraIMCScreen> {
                         SizedBox(height: 10),
                         TextField(
                           controller: pesoController,
-                          keyboardType: TextInputType.number,
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9.]')),
+                          ],
+                          textAlign: TextAlign.center,
+                          textAlignVertical: TextAlignVertical.center,
                           style: TextStyle(
-                              fontSize: 32, fontWeight: FontWeight.bold),
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                           decoration: InputDecoration(
-                            hintText: '80',
+                            hintText: '0',
+                            hintStyle:
+                                TextStyle(color: Colors.grey.withOpacity(0.4)),
                             border: InputBorder.none,
                           ),
                         ),
@@ -128,7 +145,7 @@ class _CalculadoraIMCScreenState extends State<CalculadoraIMCScreen> {
                   SizedBox(width: 20),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           'Sua altura (cm)',
@@ -137,11 +154,23 @@ class _CalculadoraIMCScreenState extends State<CalculadoraIMCScreen> {
                         SizedBox(height: 10),
                         TextField(
                           controller: alturaController,
-                          keyboardType: TextInputType.number,
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9.]')),
+                          ],
+                          textAlign: TextAlign.center,
+                          textAlignVertical: TextAlignVertical.center,
                           style: TextStyle(
-                              fontSize: 32, fontWeight: FontWeight.bold),
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                           decoration: InputDecoration(
-                            hintText: '175',
+                            hintText: '0',
+                            hintStyle:
+                                TextStyle(color: Colors.grey.withOpacity(0.4)),
                             border: InputBorder.none,
                           ),
                         ),
@@ -167,6 +196,7 @@ class _CalculadoraIMCScreenState extends State<CalculadoraIMCScreen> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
                 ),

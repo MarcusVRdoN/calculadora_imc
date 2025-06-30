@@ -11,7 +11,7 @@ class CategoriasIMCScreen extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(20),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Row(
                 children: [
@@ -30,8 +30,8 @@ class CategoriasIMCScreen extends StatelessWidget {
                 child: Text(
                   'Categorias de IMC',
                   style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 22, // aumento sutil
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
@@ -52,7 +52,7 @@ class CategoriasIMCScreen extends StatelessWidget {
 
   Widget _buildCategoriaItem(String faixa, String descricao) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           faixa,
@@ -61,6 +61,7 @@ class CategoriasIMCScreen extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        SizedBox(height: 8),
         Text(
           descricao,
           style: TextStyle(
